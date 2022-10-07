@@ -1,0 +1,745 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/mylogo.png">
+  <link rel="icon" href="/img/mylogo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John ZHANG">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Tensorflow学习笔记 Vol.1Tensorflow学习笔记1，Tensorflow的基础操作，包括数据类型，张量的创建，损失计算，全网络创建，索引与切片，维度变换，广播机制以及基础数学运算 1.TF的数据类型123456789101112131415161718192021222324252627282930import tensorflow as tfaa &#x3D; tf.constant">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tensorflow学习笔记 Vol.1">
+<meta property="og:url" content="https://johnnn765.github.io/2022/10/07/Tensorflow1/index.html">
+<meta property="og:site_name" content="John&#39;s TBlog">
+<meta property="og:description" content="Tensorflow学习笔记 Vol.1Tensorflow学习笔记1，Tensorflow的基础操作，包括数据类型，张量的创建，损失计算，全网络创建，索引与切片，维度变换，广播机制以及基础数学运算 1.TF的数据类型123456789101112131415161718192021222324252627282930import tensorflow as tfaa &#x3D; tf.constant">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.ytimg.com/vi/yjprpOoH5c8/maxresdefault.jpg">
+<meta property="article:published_time" content="2022-10-07T10:25:55.000Z">
+<meta property="article:modified_time" content="2022-10-07T11:24:13.437Z">
+<meta property="article:author" content="John ZHANG">
+<meta property="article:tag" content="TF学习">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="深度学习">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://i.ytimg.com/vi/yjprpOoH5c8/maxresdefault.jpg">
+  
+  
+  
+  <title>Tensorflow学习笔记 Vol.1 - John&#39;s TBlog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"johnnn765.github.io","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"929cl4WnHfS0xJN2GEFFvCqo-MdYXbMMI","app_key":"fIc69apBfOfGTO7uVt0Mw34r","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>John&#39;s TBlog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Tensorflow学习笔记 Vol.1"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-10-07 18:25" pubdate>
+          2022年10月7日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          10k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          86 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Tensorflow学习笔记 Vol.1</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p><img src="https://i.ytimg.com/vi/yjprpOoH5c8/maxresdefault.jpg" srcset="/img/loading.gif" lazyload></p>
+<h1 id="Tensorflow学习笔记-Vol-1"><a href="#Tensorflow学习笔记-Vol-1" class="headerlink" title="Tensorflow学习笔记 Vol.1"></a>Tensorflow学习笔记 Vol.1</h1><p>Tensorflow学习笔记1，Tensorflow的基础操作，包括<strong>数据类型</strong>，<strong>张量的创建</strong>，<strong>损失计算</strong>，<strong>全网络创建</strong>，<strong>索引与切片</strong>，<strong>维度变换</strong>，<strong>广播机制</strong>以及<strong>基础数学运算</strong></p>
+<h3 id="1-TF的数据类型"><a href="#1-TF的数据类型" class="headerlink" title="1.TF的数据类型"></a>1.TF的数据类型</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> tensorflow <span class="hljs-keyword">as</span> tf<br><br>aa = tf.constant(<span class="hljs-number">1</span>)<br><span class="hljs-built_in">print</span>(aa)<br><span class="hljs-comment"># int32</span><br><br>aa = tf.constant(<span class="hljs-number">1.</span>)<br><span class="hljs-built_in">print</span>(aa)<br><span class="hljs-comment"># float32</span><br><br><span class="hljs-comment"># aa = tf.constant(2.2, dtype=tf.int32) Convert failed</span><br><br>aa = tf.constant(<span class="hljs-number">2.</span>, dtype=tf.double)<br><span class="hljs-built_in">print</span>(aa)<br><span class="hljs-comment"># float64</span><br><br>aa = tf.constant([<span class="hljs-literal">True</span>, <span class="hljs-literal">False</span>])<br><span class="hljs-built_in">print</span>(aa)<br><span class="hljs-comment"># bool</span><br><br>aa = tf.constant(<span class="hljs-string">&#x27;Hello, world.&#x27;</span>)<br><span class="hljs-built_in">print</span>(aa)<br><span class="hljs-comment"># string</span><br><br>b = tf.constant([<span class="hljs-number">0</span>, <span class="hljs-number">1</span>])<br>bb = tf.cast(b, dtype=tf.<span class="hljs-built_in">bool</span>)<br>bbb = tf.cast(bb, dtype=tf.int32)<br><span class="hljs-built_in">print</span>(b)<br><span class="hljs-built_in">print</span>(bb)<br><span class="hljs-built_in">print</span>(bbb)<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-张量的创建"><a href="#2-张量的创建" class="headerlink" title="2.张量的创建"></a>2.张量的创建</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> tensorflow <span class="hljs-keyword">as</span> tf<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">from</span> numpy <span class="hljs-keyword">import</span> int32<br><br>a = np.ones([<span class="hljs-number">2</span>, <span class="hljs-number">3</span>])<br><span class="hljs-built_in">print</span>(a)<br><span class="hljs-comment"># a: numpy</span><br>aa = tf.convert_to_tensor(a, dtype=int32)<br><span class="hljs-built_in">print</span>(aa)<br><span class="hljs-comment"># aa: tensor converted from numpy</span><br><span class="hljs-comment"># Create tensor from numpy</span><br><br><br>b = tf.zeros([])<br><span class="hljs-built_in">print</span>(b)<br><span class="hljs-comment"># Create tensor from tf.zeros and tf.ones; [] denotes the shape of the tensor</span><br><br>c = tf.zeros([<span class="hljs-number">1</span>])<br><span class="hljs-built_in">print</span>(c)<br><br>d = tf.zeros([<span class="hljs-number">3</span>, <span class="hljs-number">3</span>])<br><span class="hljs-built_in">print</span>(d)<br><br>e = tf.ones([<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">3</span>])<br><span class="hljs-built_in">print</span>(e)<br><br><br>a = np.ones([<span class="hljs-number">2</span>, <span class="hljs-number">3</span>])<br><span class="hljs-comment"># a: numpy</span><br>aa = tf.convert_to_tensor(a, dtype=int32)<br>f = tf.zeros_like(aa)<br><span class="hljs-built_in">print</span>(f)<br><span class="hljs-comment"># Create zeros tensor with zeros_like to copy the size of an existing tensor</span><br><br>g = tf.zeros(aa.shape)<br><span class="hljs-built_in">print</span>(f)<br><span class="hljs-comment"># tf.zeros_like(aa) is equal to tf.zeros(aa.shape)</span><br><br><br>h = tf.fill([<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">3</span>], <span class="hljs-number">5</span>)<br><span class="hljs-built_in">print</span>(h)<br><span class="hljs-comment"># create tensor with same elements filling inside a defined shape using tf.fill</span><br>h = tf.fill([<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">3</span>], <span class="hljs-number">5.</span>)<br><span class="hljs-built_in">print</span>(h)<br><span class="hljs-comment"># different dtype when creating the tensor</span><br><br><br>i = tf.random.normal([<span class="hljs-number">3</span>, <span class="hljs-number">3</span>], mean=<span class="hljs-number">0</span>, stddev=<span class="hljs-number">1</span>)<br><span class="hljs-built_in">print</span>(i)<br><span class="hljs-comment"># create normal distribution initial tensor with tf.random.normal with mean and standard devision tunnable</span><br><br>i = tf.random.truncated_normal([<span class="hljs-number">3</span>, <span class="hljs-number">3</span>], mean=<span class="hljs-number">0</span>, stddev=<span class="hljs-number">1</span>)<br><span class="hljs-built_in">print</span>(i)<br><span class="hljs-comment"># use truncated_normal instead of normal to prevent gradient vanish and improve initilize performance</span><br><br>i = tf.random.uniform([<span class="hljs-number">3</span>, <span class="hljs-number">3</span>], minval=<span class="hljs-number">0</span>, maxval=<span class="hljs-number">1</span>)<br><span class="hljs-built_in">print</span>(i)<br><span class="hljs-comment"># create uniform distributed random tensor with random.uniform</span><br><br>i = tf.random.uniform([<span class="hljs-number">3</span>, <span class="hljs-number">3</span>], minval=<span class="hljs-number">0</span>, maxval=<span class="hljs-number">100</span>, dtype=int32)<br><span class="hljs-built_in">print</span>(i)<br><br><br>index_original = tf.<span class="hljs-built_in">range</span>(<span class="hljs-number">10</span>)<br><span class="hljs-comment"># create 0~10 ordered tensor with tf.range</span><br>index_shuffled = tf.random.shuffle(index_original)<br><span class="hljs-comment"># random shuffle the ordered tensor with random.shuffle</span><br><span class="hljs-built_in">print</span>(index_original)<br><span class="hljs-built_in">print</span>(index_shuffled)<br>a_sequence = tf.random.normal([<span class="hljs-number">10</span>, <span class="hljs-number">3</span>])<br>b_sequence = tf.random.uniform([<span class="hljs-number">10</span>], maxval=<span class="hljs-number">10</span>, dtype=tf.int32)<br><span class="hljs-built_in">print</span>(a_sequence)<br><span class="hljs-built_in">print</span>(b_sequence)<br>a_sequence_shuffled = tf.gather(a_sequence, index_shuffled)<br>b_sequence_shuffled = tf.gather(b_sequence, index_shuffled)<br><span class="hljs-built_in">print</span>(a_sequence_shuffled)<br><span class="hljs-built_in">print</span>(b_sequence_shuffled)<br><span class="hljs-comment"># a_sequence_shuffled and b_sequence_shuffled has same correspondance with tf.gather</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="3-损失计算"><a href="#3-损失计算" class="headerlink" title="3.损失计算"></a>3.损失计算</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> tensorflow <span class="hljs-keyword">as</span> tf<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">from</span> numpy <span class="hljs-keyword">import</span> int32<br><br>out = tf.random.uniform([<span class="hljs-number">4</span>, <span class="hljs-number">10</span>])<br><span class="hljs-comment"># 4 pictures each with 10 elements</span><br><span class="hljs-built_in">print</span>(out)<br><br>y = tf.<span class="hljs-built_in">range</span>(<span class="hljs-number">4</span>)<br><span class="hljs-comment"># create labels for the 4 pictures</span><br>y = tf.one_hot(y, depth=<span class="hljs-number">10</span>)<br><span class="hljs-built_in">print</span>(y)<br><span class="hljs-comment"># encode y with depth equals to 10 using tf.one_hot</span><br><br>loss = tf.keras.losses.mse(y, out)<br><span class="hljs-comment"># calculate the mse of each batch of the input &quot;out&quot;</span><br><span class="hljs-built_in">print</span>(loss)<br>loss = tf.reduce_mean(loss)<br><span class="hljs-comment"># mean loss of the mse from all the batches</span><br><span class="hljs-built_in">print</span>(loss)<br><span class="hljs-comment"># Data type: scalar</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="4-全网络创建"><a href="#4-全网络创建" class="headerlink" title="4.全网络创建"></a>4.全网络创建</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> tensorflow <span class="hljs-keyword">as</span> tf<br><span class="hljs-keyword">from</span> keras.applications.densenet <span class="hljs-keyword">import</span> layers<br><br><span class="hljs-comment"># x @ w + b</span><br>net = layers.Dense(<span class="hljs-number">10</span>)<br><span class="hljs-comment"># net is factor b</span><br>net.build((<span class="hljs-number">4</span>, <span class="hljs-number">8</span>))<br><span class="hljs-comment"># define the shape of the factor x</span><br><span class="hljs-built_in">print</span>(net.kernel)<br><span class="hljs-comment"># kernel is the factor w, which has the shape of (8, 10)</span><br><span class="hljs-built_in">print</span>(net.bias)<br><span class="hljs-comment"># bias has the shape of (1, 10)</span><br><br><span class="hljs-comment"># x @ w + b</span><br>x = tf.random.normal([<span class="hljs-number">4</span>, <span class="hljs-number">784</span>])<br><span class="hljs-comment"># create factor x which has a shape of (4, 784)</span><br><br>net = layers.Dense(<span class="hljs-number">10</span>)<br>net.build((<span class="hljs-number">4</span>, <span class="hljs-number">784</span>))<br><span class="hljs-built_in">print</span>(net(x).shape)<br><span class="hljs-comment"># input x into the net and output (x @ w) has a shape of (4, 10)</span><br><span class="hljs-built_in">print</span>(net.kernel.shape)<br><span class="hljs-comment"># kernel (w factor) has a shape of (784, 10)</span><br><span class="hljs-built_in">print</span>(net.bias.shape)<br><span class="hljs-comment"># bias (factor b) has a shape of (1, 10)</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="5-张量的基础索引"><a href="#5-张量的基础索引" class="headerlink" title="5.张量的基础索引"></a>5.张量的基础索引</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> tensorflow <span class="hljs-keyword">as</span> tf<br><br>a = tf.ones([<span class="hljs-number">1</span>, <span class="hljs-number">5</span>, <span class="hljs-number">5</span>, <span class="hljs-number">3</span>])<br><span class="hljs-built_in">print</span>(a[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>])<br><span class="hljs-built_in">print</span>(a[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>][<span class="hljs-number">0</span>])<br><span class="hljs-built_in">print</span>(a[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>][<span class="hljs-number">0</span>][<span class="hljs-number">2</span>])<br><span class="hljs-comment"># basic indexing with tensor[]</span><br><br><br>a = tf.random.normal([<span class="hljs-number">4</span>, <span class="hljs-number">28</span>, <span class="hljs-number">28</span>, <span class="hljs-number">3</span>])<br><span class="hljs-built_in">print</span>(a[<span class="hljs-number">1</span>].shape)<br><span class="hljs-built_in">print</span>(a[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>].shape)<br><span class="hljs-built_in">print</span>(a[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>].shape)<br><span class="hljs-built_in">print</span>(a[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">2</span>].shape)<br><span class="hljs-comment"># Numpy-style indexing (recommended)</span><br><br><br>a = tf.<span class="hljs-built_in">range</span>(<span class="hljs-number">10</span>)<br><span class="hljs-comment"># left-to-right label start from 0; right-to-left label start from -1</span><br><span class="hljs-comment"># start : end (start is included while end is excluded)</span><br><span class="hljs-comment"># blank (2:?) means goes all way down to the end</span><br><span class="hljs-built_in">print</span>(a)<br><span class="hljs-built_in">print</span>(a[-<span class="hljs-number">1</span>:])<br><span class="hljs-built_in">print</span>(a[-<span class="hljs-number">3</span>:-<span class="hljs-number">1</span>])<br><span class="hljs-built_in">print</span>(a[:<span class="hljs-number">2</span>])<br><span class="hljs-built_in">print</span>(a[:-<span class="hljs-number">1</span>])<br><span class="hljs-built_in">print</span>(a[:])<br><br><br><span class="hljs-comment"># indexing using :</span><br>a = tf.random.normal([<span class="hljs-number">4</span>, <span class="hljs-number">28</span>, <span class="hljs-number">28</span>, <span class="hljs-number">3</span>])<br><span class="hljs-built_in">print</span>(a.shape)<br><span class="hljs-built_in">print</span>(a[<span class="hljs-number">0</span>].shape)<br><span class="hljs-built_in">print</span>(a[<span class="hljs-number">0</span>, :, :, :].shape)<br><span class="hljs-built_in">print</span>(a[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, :, :].shape)<br><span class="hljs-built_in">print</span>(a[:, :, :, <span class="hljs-number">0</span>].shape)<br><span class="hljs-built_in">print</span>(a[:, <span class="hljs-number">0</span>, :, :].shape)<br><span class="hljs-comment"># : means all elements is required</span><br><br><br><span class="hljs-comment"># indexing using :: (start:end:step)</span><br>a = tf.random.normal([<span class="hljs-number">4</span>, <span class="hljs-number">28</span>, <span class="hljs-number">28</span>, <span class="hljs-number">3</span>])<br><span class="hljs-built_in">print</span>(a.shape)<br><span class="hljs-built_in">print</span>(a[<span class="hljs-number">0</span>:<span class="hljs-number">4</span>:<span class="hljs-number">5</span>, :, :, :].shape)<br><span class="hljs-built_in">print</span>(a[:, ::<span class="hljs-number">2</span>, ::<span class="hljs-number">2</span>, :].shape)<br><br><br><span class="hljs-comment"># indexing using ::-? (reverse indexing)</span><br>a = tf.<span class="hljs-built_in">range</span>(<span class="hljs-number">4</span>)<br><span class="hljs-built_in">print</span>(a)<br><span class="hljs-built_in">print</span>(a[::-<span class="hljs-number">1</span>])<br><span class="hljs-built_in">print</span>(a[<span class="hljs-number">3</span>::-<span class="hljs-number">1</span>])<br><span class="hljs-built_in">print</span>(a[<span class="hljs-number">2</span>::-<span class="hljs-number">1</span>])<br><span class="hljs-built_in">print</span>(a[<span class="hljs-number">1</span>::-<span class="hljs-number">1</span>])<br><span class="hljs-built_in">print</span>(a[<span class="hljs-number">0</span>::-<span class="hljs-number">1</span>])<br><br><br><span class="hljs-comment"># indexing using ...</span><br>a = tf.random.normal([<span class="hljs-number">2</span>, <span class="hljs-number">4</span>, <span class="hljs-number">28</span>, <span class="hljs-number">28</span>, <span class="hljs-number">3</span>])<br><span class="hljs-built_in">print</span>(a[<span class="hljs-number">0</span>].shape)<br><span class="hljs-built_in">print</span>(a[<span class="hljs-number">0</span>, :, :, :, :].shape)<br><span class="hljs-built_in">print</span>(a[<span class="hljs-number">0</span>, ...].shape)<br><span class="hljs-built_in">print</span>(a[..., <span class="hljs-number">0</span>].shape)<br><span class="hljs-built_in">print</span>(a[<span class="hljs-number">0</span>, ..., <span class="hljs-number">2</span>].shape)<br><span class="hljs-built_in">print</span>(a[<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, ..., <span class="hljs-number">0</span>].shape)<br></code></pre></td></tr></table></figure>
+
+<h3 id="6-张量的灵活索引"><a href="#6-张量的灵活索引" class="headerlink" title="6.张量的灵活索引"></a>6.张量的灵活索引</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> tensorflow <span class="hljs-keyword">as</span> tf<br><br><span class="hljs-comment"># data: [classes, students, subjects]</span><br>data = tf.random.normal([<span class="hljs-number">4</span>, <span class="hljs-number">35</span>, <span class="hljs-number">8</span>])<br>a = tf.gather(data, axis=<span class="hljs-number">0</span>, indices=[<span class="hljs-number">2</span>, <span class="hljs-number">3</span>])<br><span class="hljs-comment"># gather class data of class 2 and 3</span><br><span class="hljs-built_in">print</span>(a.shape)<br>b = tf.gather(data, axis=<span class="hljs-number">0</span>, indices=[<span class="hljs-number">2</span>, <span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">0</span>])<br><span class="hljs-comment"># gather class data in the order of 2-1-3-0, which can not be achieved by using :</span><br><span class="hljs-built_in">print</span>(b.shape)<br>c = tf.gather(data, axis=<span class="hljs-number">1</span>, indices=[<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">7</span>, <span class="hljs-number">9</span>, <span class="hljs-number">16</span>])<br><span class="hljs-comment"># gather students 2, 3, 7, 9 and 16 from all 4 classes</span><br><span class="hljs-built_in">print</span>(c.shape)<br>d = tf.gather(data, axis=<span class="hljs-number">2</span>, indices=[<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">7</span>])<br><span class="hljs-comment"># gather subject 2, 3 and 7 data of all students from all four classes</span><br><span class="hljs-built_in">print</span>(d.shape)<br><br><br>data = tf.random.normal([<span class="hljs-number">4</span>, <span class="hljs-number">35</span>, <span class="hljs-number">8</span>])<br>a = tf.gather(data, axis=<span class="hljs-number">1</span>, indices=[<span class="hljs-number">5</span>, <span class="hljs-number">7</span>])<br><span class="hljs-comment"># gather two students from each class</span><br><span class="hljs-built_in">print</span>(a.shape)<br>b = tf.gather(a, axis=<span class="hljs-number">2</span>, indices=[<span class="hljs-number">2</span>, <span class="hljs-number">3</span>])<br><span class="hljs-comment">#futher gather two subjects from the modified data</span><br><span class="hljs-built_in">print</span>(b.shape)<br><br><br><span class="hljs-comment"># tf.gather can only gather data from a single dimension</span><br><span class="hljs-comment"># tf.gather_nd can gather multiple dimension</span><br>data = tf.random.normal([<span class="hljs-number">4</span>, <span class="hljs-number">35</span>, <span class="hljs-number">8</span>])<br>a = tf.gather_nd(data, [<span class="hljs-number">0</span>])<br><span class="hljs-comment"># gather class 0 data</span><br><span class="hljs-built_in">print</span>(a.shape)<br><span class="hljs-built_in">print</span>(data[<span class="hljs-number">0</span>].shape)<br>b = tf.gather_nd(data, [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>])<br><span class="hljs-comment"># gather class 0 student 1 data</span><br><span class="hljs-built_in">print</span>(b.shape)<br><span class="hljs-built_in">print</span>(data[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>].shape)<br>c = tf.gather_nd(data, [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>])<br><span class="hljs-comment"># gather class 0 student 1 subject 2 data</span><br><span class="hljs-built_in">print</span>(c.shape)<br><span class="hljs-built_in">print</span>(data[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>].shape)<br>d = tf.gather_nd(data, [[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>]])<br><span class="hljs-comment"># return in form of vector</span><br><span class="hljs-built_in">print</span>(d.shape)<br><br><br>data = tf.random.normal([<span class="hljs-number">4</span>, <span class="hljs-number">35</span>, <span class="hljs-number">8</span>])<br>a = tf.gather_nd(data, [[<span class="hljs-number">0</span>, <span class="hljs-number">0</span>], [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>]])<br><span class="hljs-comment"># gather data of class1_student1 (shape=[8]) and class2_student2</span><br><span class="hljs-built_in">print</span>(a.shape)<br>b = tf.gather_nd(data, [[<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>], [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>], [<span class="hljs-number">2</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2</span>]])<br><span class="hljs-comment"># gather data of class1_student1_subject1, ... and class3_student3_subject3 (shape=[])</span><br><span class="hljs-built_in">print</span>(b.shape)<br><br><br><span class="hljs-comment"># indexing using true/false (tf.boolean_mask)</span><br>data = tf.random.normal([<span class="hljs-number">4</span>, <span class="hljs-number">28</span>, <span class="hljs-number">28</span>, <span class="hljs-number">3</span>])<br>a = tf.boolean_mask(data, mask=[<span class="hljs-literal">True</span>, <span class="hljs-literal">True</span>, <span class="hljs-literal">False</span>, <span class="hljs-literal">True</span>])<br><span class="hljs-comment"># default mask dimension is dimension 0</span><br><span class="hljs-built_in">print</span>(a.shape)<br>b = tf.boolean_mask(data, mask=[<span class="hljs-literal">True</span>, <span class="hljs-literal">True</span>, <span class="hljs-literal">False</span>], axis=<span class="hljs-number">3</span>)<br><span class="hljs-comment"># with defined axis</span><br><span class="hljs-built_in">print</span>(b.shape)<br>data = tf.ones([<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>])<br>c = tf.boolean_mask(data, mask=[[<span class="hljs-literal">True</span>, <span class="hljs-literal">False</span>, <span class="hljs-literal">False</span>], [<span class="hljs-literal">False</span>, <span class="hljs-literal">True</span>, <span class="hljs-literal">True</span>]])<br><span class="hljs-built_in">print</span>(c.shape)<br></code></pre></td></tr></table></figure>
+
+<h3 id="8-张量的维度变换"><a href="#8-张量的维度变换" class="headerlink" title="8.张量的维度变换"></a>8.张量的维度变换</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> tensorflow <span class="hljs-keyword">as</span> tf<br><br><span class="hljs-comment"># reshape tensor with tf.reshape</span><br>data = tf.random.normal([<span class="hljs-number">4</span>, <span class="hljs-number">28</span>, <span class="hljs-number">28</span>, <span class="hljs-number">3</span>])<br><span class="hljs-built_in">print</span>(data.shape)<br><span class="hljs-built_in">print</span>(data.ndim)<br>a = tf.reshape(data, [<span class="hljs-number">4</span>, <span class="hljs-number">28</span>*<span class="hljs-number">28</span>, <span class="hljs-number">3</span>])<br><span class="hljs-built_in">print</span>(a.shape)<br><span class="hljs-built_in">print</span>(a.ndim)<br>b = tf.reshape(data, [<span class="hljs-number">4</span>, -<span class="hljs-number">1</span>, <span class="hljs-number">3</span>])<br><span class="hljs-comment"># &quot;-1&quot; can be auto calculated by system (only single &quot;-1&quot; is allowed)</span><br><span class="hljs-built_in">print</span>(b.shape)<br><span class="hljs-built_in">print</span>(b.ndim)<br>c = tf.reshape(data, [<span class="hljs-number">4</span>, <span class="hljs-number">28</span>*<span class="hljs-number">28</span>*<span class="hljs-number">3</span>])<br><span class="hljs-built_in">print</span>(c.shape)<br><span class="hljs-built_in">print</span>(c.ndim)<br>d = tf.reshape(data, [<span class="hljs-number">4</span>, -<span class="hljs-number">1</span>])<br><span class="hljs-comment"># &quot;-1&quot; can be auto calculated by system (only single &quot;-1&quot; is allowed)</span><br><span class="hljs-built_in">print</span>(d.shape)<br><span class="hljs-built_in">print</span>(d.ndim)<br><br><br>data = tf.random.normal([<span class="hljs-number">4</span>, <span class="hljs-number">28</span>, <span class="hljs-number">28</span>, <span class="hljs-number">3</span>])<br><span class="hljs-built_in">print</span>(data.shape)<br><span class="hljs-built_in">print</span>(data.ndim)<br>a = tf.reshape(tf.reshape(data, [<span class="hljs-number">4</span>, -<span class="hljs-number">1</span>]), [<span class="hljs-number">4</span>, <span class="hljs-number">28</span>, <span class="hljs-number">28</span>, <span class="hljs-number">3</span>])<br><span class="hljs-built_in">print</span>(a.shape)<br><span class="hljs-built_in">print</span>(a.ndim)<br>b = tf.reshape(tf.reshape(data, [<span class="hljs-number">4</span>, -<span class="hljs-number">1</span>]), [<span class="hljs-number">4</span>, <span class="hljs-number">14</span>, <span class="hljs-number">56</span>, <span class="hljs-number">3</span>])<br><span class="hljs-comment"># reshape into different shape while preserving same ndim</span><br><span class="hljs-built_in">print</span>(b.shape)<br><span class="hljs-built_in">print</span>(b.ndim)<br>c = tf.reshape(tf.reshape(a, [<span class="hljs-number">4</span>, -<span class="hljs-number">1</span>]), [<span class="hljs-number">4</span>, <span class="hljs-number">1</span>, <span class="hljs-number">784</span>, <span class="hljs-number">3</span>])<br><span class="hljs-built_in">print</span>(c.shape)<br><span class="hljs-built_in">print</span>(c.ndim)<br><br><br><span class="hljs-comment"># transpose tensor content with tf.transpose</span><br>data = tf.random.normal([<span class="hljs-number">4</span>, <span class="hljs-number">18</span>, <span class="hljs-number">28</span>, <span class="hljs-number">3</span>])<br><span class="hljs-built_in">print</span>(data.shape)<br>a = tf.transpose(data)<br><span class="hljs-built_in">print</span>(a.shape)<br>b = tf.transpose(data, perm=[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">2</span>])<br><span class="hljs-comment"># use &quot;perm&quot; input factor to define transpose order</span><br><span class="hljs-built_in">print</span>(b.shape)<br><br><br><span class="hljs-comment"># tensor dim expansion with tf.expand_dims</span><br>data = tf.random.normal([<span class="hljs-number">4</span>, <span class="hljs-number">35</span>, <span class="hljs-number">8</span>])<br>a = tf.expand_dims(data, axis=<span class="hljs-number">0</span>)<br><span class="hljs-comment"># define dim expansion position with input factor &quot;axis&quot;</span><br><span class="hljs-built_in">print</span>(a.shape)<br>b = tf.expand_dims(data, axis=<span class="hljs-number">1</span>)<br><span class="hljs-built_in">print</span>(b.shape)<br>c = tf.expand_dims(data, axis=<span class="hljs-number">2</span>)<br><span class="hljs-built_in">print</span>(c.shape)<br>d = tf.expand_dims(data, axis=-<span class="hljs-number">1</span>)<br><span class="hljs-built_in">print</span>(d.shape)<br>d = tf.expand_dims(data, axis=-<span class="hljs-number">2</span>)<br><span class="hljs-built_in">print</span>(d.shape)<br><br><br><span class="hljs-comment"># dim squeeze with tf.squeeze to eliminate 1 dimensions</span><br>data = tf.random.normal([<span class="hljs-number">5</span>, <span class="hljs-number">1</span>, <span class="hljs-number">8</span>, <span class="hljs-number">1</span>, <span class="hljs-number">3</span>])<br><span class="hljs-built_in">print</span>(data.shape)<br>a = tf.squeeze(data)<br><span class="hljs-built_in">print</span>(a.shape)<br>b = tf.squeeze(data, axis=<span class="hljs-number">1</span>)<br><span class="hljs-built_in">print</span>(b.shape)<br>c = tf.squeeze(data, axis=<span class="hljs-number">3</span>)<br><span class="hljs-built_in">print</span>(c.shape)<br>d = tf.squeeze(data, axis=-<span class="hljs-number">2</span>)<br><span class="hljs-built_in">print</span>(d.shape)<br></code></pre></td></tr></table></figure>
+
+<h3 id="9-广播机制"><a href="#9-广播机制" class="headerlink" title="9.广播机制"></a>9.广播机制</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> tensorflow <span class="hljs-keyword">as</span> tf<br><br>x = tf.random.normal([<span class="hljs-number">4</span>, <span class="hljs-number">32</span>, <span class="hljs-number">32</span>, <span class="hljs-number">3</span>])<br><span class="hljs-built_in">print</span>((x+tf.random.normal([<span class="hljs-number">3</span>])).shape)<br><span class="hljs-comment"># auto broadcasting without using tf.broadcasting_nd</span><br><span class="hljs-built_in">print</span>((x+tf.random.normal([<span class="hljs-number">32</span>, <span class="hljs-number">32</span>, <span class="hljs-number">1</span>])).shape)<br><span class="hljs-built_in">print</span>((x+tf.random.normal([<span class="hljs-number">4</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>])).shape)<br><span class="hljs-comment"># print((x+tf.random.normal([1, 4, 1, 1])).shape)</span><br><span class="hljs-comment"># cannot auto broadcasting due to &quot;32&quot; and &quot;4&quot;</span><br><br>b = tf.broadcast_to(tf.random.normal([<span class="hljs-number">4</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>]), [<span class="hljs-number">4</span>, <span class="hljs-number">32</span>, <span class="hljs-number">32</span>, <span class="hljs-number">3</span>])<br><span class="hljs-built_in">print</span>(b.shape)<br><br><br><span class="hljs-comment"># broadcast and tile</span><br>a = tf.ones([<span class="hljs-number">3</span>, <span class="hljs-number">4</span>])<br>a1 = tf.broadcast_to(a, [<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>])<br><span class="hljs-comment"># dimension expansion with tf.broadcast_to</span><br><span class="hljs-built_in">print</span>(a1.shape)<br><br>a2 = tf.expand_dims(a, axis=<span class="hljs-number">0</span>)<br><span class="hljs-comment"># step1: expand dimension with tf.expand_dims</span><br>a2 = tf.tile(a2, [<span class="hljs-number">2</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>])<br><span class="hljs-comment"># step2: copy to defined dimentions with tf.tile</span><br><span class="hljs-built_in">print</span>(a2.shape)<br></code></pre></td></tr></table></figure>
+
+<h3 id="10-TF基础数学运算"><a href="#10-TF基础数学运算" class="headerlink" title="10.TF基础数学运算"></a>10.TF基础数学运算</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> tensorflow <span class="hljs-keyword">as</span> tf<br>a = tf.ones([<span class="hljs-number">2</span>, <span class="hljs-number">2</span>])<br>b = tf.fill([<span class="hljs-number">2</span>, <span class="hljs-number">2</span>], <span class="hljs-number">2.0</span>)<br><span class="hljs-comment"># Use tf.fill to generate matrix filled with desired elements</span><br><br>a+b, a-b, a*b, a/b<br><span class="hljs-comment"># 张量中对应元素之间的【分别】数学运算</span><br><br>b//a<br><span class="hljs-comment"># 利用//进行整除数学操作</span><br><br>a = tf.constant([<span class="hljs-number">10</span>, <span class="hljs-number">10</span>, <span class="hljs-number">10</span>])<br>b = tf.constant([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>])<br><span class="hljs-built_in">print</span>(b%a)<br><span class="hljs-built_in">print</span>(tf.math.mod(b, a))<br><span class="hljs-comment"># 两种方法计算取余数的方法</span><br><br>a = tf.ones([<span class="hljs-number">2</span>, <span class="hljs-number">2</span>])<br>tf.math.log(a)<br><span class="hljs-comment"># 计算loge(a)</span><br><br>tf.exp(a)<br><span class="hljs-comment"># e的a次方</span><br><br>tf.math.log(<span class="hljs-number">8.</span>)/tf.math.log(<span class="hljs-number">2.</span>)<br><span class="hljs-comment"># 用换底的方法计算log2(8)</span><br><br>tf.math.log(<span class="hljs-number">100.</span>)/tf.math.log(<span class="hljs-number">10.</span>)<br><span class="hljs-comment"># 用换底的方法计算log10(100)</span><br><br><span class="hljs-built_in">print</span>(tf.<span class="hljs-built_in">pow</span>(b, <span class="hljs-number">3</span>))<br><span class="hljs-built_in">print</span>(b**<span class="hljs-number">3</span>)<br><span class="hljs-comment"># 两种方法进行次方计算</span><br><br>b = tf.fill([<span class="hljs-number">2</span>, <span class="hljs-number">2</span>], <span class="hljs-number">2.0</span>)<br>tf.math.sqrt(b)<br><span class="hljs-comment"># 利用 tf.math.sqrt进行开方运算</span><br><br>a = tf.ones([<span class="hljs-number">2</span>, <span class="hljs-number">2</span>])<br>b = tf.fill([<span class="hljs-number">2</span>, <span class="hljs-number">2</span>], <span class="hljs-number">2.0</span>)<br><span class="hljs-built_in">print</span>(a@b)<br><span class="hljs-built_in">print</span>(tf.matmul(a, b))<br><span class="hljs-comment"># 两种方法进行矩阵之间的相乘</span><br><br>a = tf.ones([<span class="hljs-number">4</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>])<br>b = tf.fill([<span class="hljs-number">4</span>, <span class="hljs-number">3</span>, <span class="hljs-number">5</span>], <span class="hljs-number">2.</span>)<br><span class="hljs-built_in">print</span>(a@b)<br><span class="hljs-built_in">print</span>(tf.matmul(a, b))<br><span class="hljs-comment"># tensorflow默认将后两个维度当成矩阵进行相乘运算</span><br><br>a = tf.ones([<span class="hljs-number">4</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>])<br>b = tf.fill([<span class="hljs-number">3</span>, <span class="hljs-number">5</span>], <span class="hljs-number">2.</span>)<br>bb = tf.broadcast_to(b, [<span class="hljs-number">4</span>, <span class="hljs-number">3</span>, <span class="hljs-number">5</span>])<br><span class="hljs-built_in">print</span>(a@bb)<br><span class="hljs-built_in">print</span>(tf.matmul(a, bb))<br><span class="hljs-comment"># tensorflow默认将后两个维度当成矩阵进行相乘运算</span><br><span class="hljs-comment"># 利用tf.broadcast_to将不满足维度要求的张量扩展到可以进行相乘的维度</span><br><br>X = tf.ones([<span class="hljs-number">4</span>, <span class="hljs-number">2</span>])<br>W = tf.ones([<span class="hljs-number">2</span>, <span class="hljs-number">1</span>])<br>b = tf.constant(<span class="hljs-number">0.1</span>)<br>out = X@W+b<br><span class="hljs-built_in">print</span>(tf.nn.relu(out))<br><span class="hljs-comment"># out = relu(X@W + b)</span><br></code></pre></td></tr></table></figure>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Python/" class="category-chain-item">Python</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Python/Tensorflow/" class="category-chain-item">Tensorflow</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/TF%E5%AD%A6%E4%B9%A0/">#TF学习</a>
+      
+        <a href="/tags/Python/">#Python</a>
+      
+        <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">#深度学习</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Tensorflow学习笔记 Vol.1</div>
+      <div>https://johnnn765.github.io/2022/10/07/Tensorflow1/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>John ZHANG</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年10月7日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"929cl4WnHfS0xJN2GEFFvCqo-MdYXbMMI","appKey":"fIc69apBfOfGTO7uVt0Mw34r","path":"window.location.pathname","placeholder":"吐槽点啥呗~","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
