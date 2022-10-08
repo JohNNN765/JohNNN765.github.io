@@ -4,6 +4,37 @@
   
   
   <entry>
+    <title>Tensorflow学习笔记 Vol.3</title>
+    <link href="/2022/10/08/Tensorflow3/"/>
+    <url>/2022/10/08/Tensorflow3/</url>
+    
+    <content type="html"><![CDATA[<p><img src="https://i.ytimg.com/vi/yjprpOoH5c8/maxresdefault.jpg"></p><h1 id="Tensorflow学习笔记-Vol-3"><a href="#Tensorflow学习笔记-Vol-3" class="headerlink" title="Tensorflow学习笔记 Vol.3"></a>Tensorflow学习笔记 Vol.3</h1><p>Tensorflow学习笔记3，Tensorflow的中阶以及进阶操作，包括<strong>张量的合并与分割</strong>，<strong>张量的创建</strong>，<strong>损失计算</strong>，<strong>全网络创建</strong>，<strong>索引与切片</strong>，<strong>维度变换</strong>，<strong>广播机制</strong>以及<strong>基础数学运算</strong></p><h3 id="1-张量的合并与分割"><a href="#1-张量的合并与分割" class="headerlink" title="1.张量的合并与分割"></a>1.张量的合并与分割</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> tensorflow <span class="hljs-keyword">as</span> tf<br><br><span class="hljs-comment"># --------------------张量的融合---------------------</span><br>a = tf.ones([<span class="hljs-number">4</span>, <span class="hljs-number">35</span>, <span class="hljs-number">8</span>])<br>b = tf.ones([<span class="hljs-number">2</span>, <span class="hljs-number">35</span>, <span class="hljs-number">8</span>])<br><span class="hljs-comment"># 张量意义[班级，学生，科目成绩]</span><br><br>c = tf.concat([a, b], axis = <span class="hljs-number">0</span>)<br><span class="hljs-built_in">print</span>(c.shape)<br><span class="hljs-comment"># 利用 tf.concat 将两个张量在指定的维度进行融合</span><br><br>a = tf.ones([<span class="hljs-number">4</span>, <span class="hljs-number">32</span>, <span class="hljs-number">8</span>])<br>b = tf.ones([<span class="hljs-number">4</span>, <span class="hljs-number">3</span>, <span class="hljs-number">8</span>])<br><br><span class="hljs-built_in">print</span>(tf.concat([a, b], axis = <span class="hljs-number">1</span>))<br><span class="hljs-comment"># 除去指定融合维度，两个张量在其他维度必须拥有相同维度</span><br><br><br><span class="hljs-comment"># --------------------张量的堆叠---------------------</span><br>a = tf.ones([<span class="hljs-number">4</span>, <span class="hljs-number">35</span>, <span class="hljs-number">8</span>])<br>b = tf.ones([<span class="hljs-number">4</span>, <span class="hljs-number">35</span>, <span class="hljs-number">8</span>])<br><span class="hljs-comment"># a数据与b数据来自不同学校，需要有一个新的维度进行区分</span><br><br>c = tf.stack([a, b], axis = <span class="hljs-number">0</span>)<br><span class="hljs-built_in">print</span>(c.shape)<br>d = tf.stack([a, b], axis = <span class="hljs-number">3</span>)<br><span class="hljs-built_in">print</span>(d.shape)<br><span class="hljs-comment"># 利用 tf.stack 在指定的任意维度上进行堆叠以创建一个新的维度</span><br><span class="hljs-comment"># tf.stack要求两个堆叠的张量在所有维度上拥有相同的维数</span><br><br><br><span class="hljs-comment"># --------------------张量的拆分---------------------</span><br>a = tf.ones([<span class="hljs-number">2</span>, <span class="hljs-number">4</span>, <span class="hljs-number">35</span>, <span class="hljs-number">8</span>])<br>aa, bb = tf.unstack(c, axis = <span class="hljs-number">0</span>)<br><span class="hljs-built_in">print</span>(aa.shape, bb.shape)<br><span class="hljs-comment"># 利用 tf.unstack 在指定的维度上对一个张量进行拆分，拆分个数为拆分维度的维数</span><br><br>cc = tf.unstack(a, axis = <span class="hljs-number">3</span>)<br><span class="hljs-built_in">print</span>(cc[<span class="hljs-number">0</span>].shape)<br><span class="hljs-built_in">print</span>(cc[<span class="hljs-number">7</span>].shape)<br><br>dd = tf.split(a, axis = <span class="hljs-number">3</span>, num_or_size_splits = <span class="hljs-number">2</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">len</span>(dd))<br>ee = tf.split(a, axis = <span class="hljs-number">3</span>, num_or_size_splits = [<span class="hljs-number">2</span>, <span class="hljs-number">2</span>, <span class="hljs-number">4</span>])<br><span class="hljs-built_in">print</span>(ee[<span class="hljs-number">0</span>].shape)<br><span class="hljs-built_in">print</span>(ee[<span class="hljs-number">2</span>].shape)<br><span class="hljs-comment"># 利用 tf.split 对张量进行指定维度上指定拆分方式的张量拆分</span><br></code></pre></td></tr></table></figure><p>__本文作者__：Johnnn765<br />__本文地址__： <a href="https://johnnn765.github.io/2022/10/08/Tensorflow3/">https://johnnn765.github.io/2022/10/08/Tensorflow3/</a> <br />__版权声明__：转载请注明出处！</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Python</category>
+      
+      <category>Tensorflow</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>TF学习</tag>
+      
+      <tag>Python</tag>
+      
+      <tag>深度学习</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>DataStructure Vol.2 数组队列模拟 Array Queues Demo</title>
     <link href="/2022/10/08/DataStructure2/"/>
     <url>/2022/10/08/DataStructure2/</url>
