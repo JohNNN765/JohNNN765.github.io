@@ -18,26 +18,25 @@
   <meta name="author" content="John ZHANG">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Tensorflow学习笔记 Vol.2Tensorflow学习笔记2，Tensorflow的前向传播 (Foward Propagation) demo 案例 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636">
+    <meta name="description" content="DataStructure Vol.1 稀疏矩阵转换 Sparse Array Conversion稀疏矩阵转换的原理示意图 Java实现代码12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Tensorflow学习笔记 Vol.2">
-<meta property="og:url" content="https://johnnn765.github.io/2022/10/08/Tensorflow2/index.html">
+<meta property="og:title" content="DataStructure Vol.1 稀疏矩阵转换 Sparse Array Conversion">
+<meta property="og:url" content="https://johnnn765.github.io/2022/10/08/DataStructure1/index.html">
 <meta property="og:site_name" content="John&#39;s TBlog">
-<meta property="og:description" content="Tensorflow学习笔记 Vol.2Tensorflow学习笔记2，Tensorflow的前向传播 (Foward Propagation) demo 案例 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636">
+<meta property="og:description" content="DataStructure Vol.1 稀疏矩阵转换 Sparse Array Conversion稀疏矩阵转换的原理示意图 Java实现代码12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://i.ytimg.com/vi/yjprpOoH5c8/maxresdefault.jpg">
-<meta property="article:published_time" content="2022-10-08T02:48:58.000Z">
-<meta property="article:modified_time" content="2022-10-08T03:06:39.980Z">
+<meta property="og:image" content="https://pd.daffodilvarsity.edu.bd/web/image/op.course/243/image_1920">
+<meta property="article:published_time" content="2022-10-08T04:01:18.000Z">
+<meta property="article:modified_time" content="2022-10-08T04:15:37.354Z">
 <meta property="article:author" content="John ZHANG">
-<meta property="article:tag" content="TF学习">
-<meta property="article:tag" content="Python">
-<meta property="article:tag" content="深度学习">
+<meta property="article:tag" content="数据结构学习">
+<meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://i.ytimg.com/vi/yjprpOoH5c8/maxresdefault.jpg">
+<meta name="twitter:image" content="https://pd.daffodilvarsity.edu.bd/web/image/op.course/243/image_1920">
   
   
   
-  <title>Tensorflow学习笔记 Vol.2 - John&#39;s TBlog</title>
+  <title>DataStructure Vol.1 稀疏矩阵转换 Sparse Array Conversion - John&#39;s TBlog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -220,7 +219,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Tensorflow学习笔记 Vol.2"></span>
+            <span id="subtitle" data-typed-text="DataStructure Vol.1 稀疏矩阵转换 Sparse Array Conversion"></span>
           
         </div>
 
@@ -231,8 +230,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-10-08 10:48" pubdate>
-          2022年10月8日 上午
+        <time datetime="2022-10-08 12:01" pubdate>
+          2022年10月8日 中午
         </time>
       </span>
     
@@ -243,7 +242,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.6k 字
+          2.4k 字
         
       </span>
     
@@ -254,7 +253,7 @@
         
         
         
-          23 分钟
+          21 分钟
         
       </span>
     
@@ -300,14 +299,14 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Tensorflow学习笔记 Vol.2</h1>
+            <h1 style="display: none">DataStructure Vol.1 稀疏矩阵转换 Sparse Array Conversion</h1>
             
             
               <div class="markdown-body">
                 
-                <p><img src="https://i.ytimg.com/vi/yjprpOoH5c8/maxresdefault.jpg" srcset="/img/loading.gif" lazyload></p>
-<h1 id="Tensorflow学习笔记-Vol-2"><a href="#Tensorflow学习笔记-Vol-2" class="headerlink" title="Tensorflow学习笔记 Vol.2"></a>Tensorflow学习笔记 Vol.2</h1><p>Tensorflow学习笔记2，Tensorflow的<strong>前向传播 (Foward Propagation) demo 案例</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> tensorflow <span class="hljs-keyword">as</span> tf<br><span class="hljs-keyword">from</span> tensorflow <span class="hljs-keyword">import</span> keras<br><span class="hljs-keyword">from</span> tensorflow.keras <span class="hljs-keyword">import</span> datasets<br><span class="hljs-keyword">import</span> os<br><br>os.environ[<span class="hljs-string">&#x27;TF_CPP_MIN_LOG_LEVEL&#x27;</span>] = <span class="hljs-string">&#x27;2&#x27;</span><br><span class="hljs-comment"># 运行程序的时候在头部屏蔽提醒信息仅打印错误信息</span><br><br>(x, y), _ = datasets.mnist.load_data()<br><span class="hljs-comment"># 从MNIST数据库中调取数据</span><br><span class="hljs-comment"># x的数据结构为：[60k, 28, 28]（60k张图片，每张图片的size为28*28）</span><br><span class="hljs-comment"># y的数据结构为：[60k]（60k个label）</span><br><br>x = tf.convert_to_tensor(x, dtype=tf.float32)<br>y = tf.convert_to_tensor(y, dtype=tf.int32)<br><span class="hljs-comment"># 将获取的数据转化为浮点数32数据类型的张量</span><br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;张量x的形状与数据类型: &quot;</span>, x.shape, x.dtype)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;张量y的形状与数据类型: &quot;</span>, y.shape, y.dtype)<br><span class="hljs-comment"># 将张量的形状与数据类型打印至终端验证转换</span><br><br><span class="hljs-built_in">print</span>(tf.reduce_min(x), tf.reduce_max(x))<br><span class="hljs-built_in">print</span>(tf.reduce_min(y), tf.reduce_max(y))<br><span class="hljs-comment"># 在终端中打印张量x和张量y的最大值与最小值</span><br><span class="hljs-comment"># 张量x的最小值与最大值（0与255）代表图像的像素灰度值范围</span><br><span class="hljs-comment"># 张量y的最小值与最大值（0与9）代表图像标签0~9</span><br><br>x = x / <span class="hljs-number">255.</span><br><span class="hljs-built_in">print</span>(tf.reduce_min(x), tf.reduce_max(x))<br><span class="hljs-comment"># 将[0,255]的灰度值范围进行归一化操作</span><br><br>train_database = tf.data.Dataset.from_tensor_slices((x, y)).batch(<span class="hljs-number">128</span>)<br><span class="hljs-comment"># 由张量x与y创建训练集，每次从中抽取128个sample</span><br>train_iter = <span class="hljs-built_in">iter</span>(train_database)<br><span class="hljs-comment"># 创建迭代器，不断从训练集中每次抽取128个sample</span><br>sample = <span class="hljs-built_in">next</span>(train_iter)<br><span class="hljs-comment"># 利用next不断调用sample</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;batch:&#x27;</span>, sample[<span class="hljs-number">0</span>].shape, sample[<span class="hljs-number">1</span>].shape)<br><span class="hljs-comment"># 分别对应x和y的sample</span><br><br><span class="hljs-comment"># 对输入的张量x进行一系列将为的操作</span><br><span class="hljs-comment"># [b, 28*28(784)] =&gt; [b, 256] =&gt; [b, 128] =&gt; [b, 10]</span><br><span class="hljs-comment"># 权重系数张量的大小为[dim_in, dim_out]</span><br><span class="hljs-comment"># bias系数张量的大小为[dim_out]</span><br>w1 = tf.Variable(tf.random.truncated_normal([<span class="hljs-number">784</span>, <span class="hljs-number">256</span>], stddev = <span class="hljs-number">0.1</span>))<br>b1 = tf.Variable(tf.zeros([<span class="hljs-number">256</span>]))<br>w2 = tf.Variable(tf.random.truncated_normal([<span class="hljs-number">256</span>, <span class="hljs-number">128</span>], stddev = <span class="hljs-number">0.1</span>))<br>b2 = tf.Variable(tf.zeros([<span class="hljs-number">128</span>]))<br>w3 = tf.Variable(tf.random.truncated_normal([<span class="hljs-number">128</span>, <span class="hljs-number">10</span>], stddev = <span class="hljs-number">0.1</span>))<br>b3 = tf.Variable(tf.zeros([<span class="hljs-number">10</span>]))<br><span class="hljs-comment"># 指定标准方差优化参数初始化</span><br><br>learning_rate = <span class="hljs-number">1e-3</span><br><span class="hljs-comment"># 设置参数更新的学习率</span><br><br><span class="hljs-keyword">for</span> epoch <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">10</span>):<br><span class="hljs-comment"># 将数据集进行10次循环</span><br>    <span class="hljs-keyword">for</span> step, (x, y) <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(train_database):<br>    <span class="hljs-comment"># 对每一个batch进行循环</span><br>    <span class="hljs-comment"># 每循环一个step将数值进行打印</span><br>    <span class="hljs-comment"># x: [128, 28, 28] y: [128]</span><br>        x = tf.reshape(x, [-<span class="hljs-number">1</span>, <span class="hljs-number">28</span>*<span class="hljs-number">28</span>])<br>        <span class="hljs-comment"># 对张量x进行reshape操作[b, 28, 28] =&gt; [b, 784]</span><br><br>        <span class="hljs-keyword">with</span> tf.GradientTape() <span class="hljs-keyword">as</span> tape:<br><br>            h1 = x@w1 + b1<br>            <span class="hljs-comment"># [b, 784]@[784, 256] +(Auto broadingcast) [256] =&gt; [b, 256]</span><br>            h1 = tf.nn.relu(h1)<br>            h2 = h1@w2 + b2<br>            <span class="hljs-comment"># [b, 256] =&gt; [b, 128]</span><br>            h2 = tf.nn.relu(h2)<br>            out_put = h2@w3 + b3<br>            <span class="hljs-comment"># [b, 128] =&gt; [b, 10]</span><br>            <span class="hljs-comment"># 中间层利用relu函数进行激活</span><br><br>            <span class="hljs-comment"># loss computing</span><br>            <span class="hljs-comment"># out_put的形状为[b, 10]</span><br>            <span class="hljs-comment"># 将y([b])转化为[b, 10]</span><br>            y_onehot = tf.one_hot(y, depth=<span class="hljs-number">10</span>)<br><br>            <span class="hljs-comment"># mse = mean(sym(y-out)^2)</span><br>            loss = tf.square(y_onehot-out_put)<br>            loss = tf.reduce_mean(loss)<br><br>        grad = tape.gradient(loss, [w1, b1, w2, b2, w3, b3])<br>        <span class="hljs-comment"># 计算梯度</span><br>        w1.assign_sub(learning_rate * grad[<span class="hljs-number">0</span>])<br>        <span class="hljs-comment"># 使用assign_sub函数保持更新后的w1仍然为Variable类型不变</span><br>        b1.assign_sub(learning_rate * grad[<span class="hljs-number">1</span>])<br>        w2.assign_sub(learning_rate * grad[<span class="hljs-number">2</span>])<br>        b2.assign_sub(learning_rate * grad[<span class="hljs-number">3</span>])<br>        w3.assign_sub(learning_rate * grad[<span class="hljs-number">4</span>])<br>        b3.assign_sub(learning_rate * grad[<span class="hljs-number">5</span>])<br>        <span class="hljs-comment"># 利用计算的梯度和指定的学习率进行参数的更新</span><br><br>        <span class="hljs-keyword">if</span> step % <span class="hljs-number">100</span> == <span class="hljs-number">0</span>:<br>            <span class="hljs-built_in">print</span>(epoch, step, <span class="hljs-string">&#x27;loss:&#x27;</span>, <span class="hljs-built_in">float</span>(loss))<br></code></pre></td></tr></table></figure>
+                <p><img src="https://pd.daffodilvarsity.edu.bd/web/image/op.course/243/image_1920" srcset="/img/loading.gif" lazyload></p>
+<h1 id="DataStructure-Vol-1-稀疏矩阵转换-Sparse-Array-Conversion"><a href="#DataStructure-Vol-1-稀疏矩阵转换-Sparse-Array-Conversion" class="headerlink" title="DataStructure Vol.1 稀疏矩阵转换 Sparse Array Conversion"></a>DataStructure Vol.1 稀疏矩阵转换 Sparse Array Conversion</h1><h3 id="稀疏矩阵转换的原理示意图"><a href="#稀疏矩阵转换的原理示意图" class="headerlink" title="稀疏矩阵转换的原理示意图"></a>稀疏矩阵转换的原理示意图</h3><p><img src="https://img-blog.csdnimg.cn/20200920210043195.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L21meDc3MDA0Mjk=,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" lazyload></p>
+<h3 id="Java实现代码"><a href="#Java实现代码" class="headerlink" title="Java实现代码"></a>Java实现代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-keyword">import</span> java.util.ArrayList;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">SparseArray</span> &#123;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-comment">// 生成原始二维稀疏数组</span><br>        <span class="hljs-comment">// 0，1，2分别代表没有数据，数据类型A以及数据类型B</span><br><br>        <span class="hljs-type">int</span> chessArr1[][] = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[<span class="hljs-number">10</span>][<span class="hljs-number">11</span>];<br>        <span class="hljs-comment">// 初始化11*11的0数值二维数组</span><br>        chessArr1[<span class="hljs-number">1</span>][<span class="hljs-number">2</span>] = <span class="hljs-number">1</span>;<br>        chessArr1[<span class="hljs-number">2</span>][<span class="hljs-number">3</span>] = <span class="hljs-number">2</span>;<br>        <span class="hljs-comment">// 给特定的位点进行赋值以生成二维稀疏数组</span><br>        <span class="hljs-comment">// 在实际应用中上述的二维稀疏数组为未知状态</span><br><br>        System.out.println(<span class="hljs-string">&quot;原始的二维系数数组为：&quot;</span>);<br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span>[] row : chessArr1) &#123;<br>            <span class="hljs-comment">// 首先遍历二维稀疏矩阵中的每一行</span><br>            <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> data : row) &#123;<br>                <span class="hljs-comment">// 然后遍历每一行中的每一个元素</span><br>                System.out.printf(<span class="hljs-string">&quot;%d\t&quot;</span>, data);<br>            &#125;<br>            System.out.println();<br>        &#125;<br>        <span class="hljs-comment">// 在终端打印出创建的二维稀疏数组</span><br><br>        <span class="hljs-comment">// 将二维稀疏数组转换为稀疏数组进行存储</span><br>        <span class="hljs-comment">// Step1：对稀疏数组进行遍历，得到非0元素的数量</span><br>        <span class="hljs-type">ArrayList</span> <span class="hljs-variable">row_list</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();<br>        <span class="hljs-type">ArrayList</span> <span class="hljs-variable">col_list</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();<br>        <span class="hljs-type">ArrayList</span> <span class="hljs-variable">val_list</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; chessArr1.length; i++) &#123;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">j</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; j &lt; chessArr1[i].length; j++) &#123;<br>                <span class="hljs-keyword">if</span> (chessArr1[i][j] != <span class="hljs-number">0</span>) &#123;<br>                    row_list.add(i);<br>                    col_list.add(j);<br>                    val_list.add(chessArr1[i][j]);<br>                &#125;<br>            &#125;<br>        &#125;<br>        System.out.println(<span class="hljs-string">&quot;此二维稀疏数组中一共有&quot;</span>+ row_list.size() + <span class="hljs-string">&quot;个非零的值&quot;</span>);<br><br>        <span class="hljs-comment">// Step2：创建对应的存储用稀疏数组</span><br>        <span class="hljs-type">int</span> Compact_Array[][] = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[row_list.size()+<span class="hljs-number">1</span>][<span class="hljs-number">3</span>];<br>        <span class="hljs-comment">// 创建存储用稀疏数组，数组第一行为头文件，记录原始数组的行列大小以及非0元素的个数</span><br>        <span class="hljs-comment">// 数组接下来每一行记录非0元素的坐标以及元素的值</span><br>        Compact_Array[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>] = chessArr1.length;<br>        Compact_Array[<span class="hljs-number">0</span>][<span class="hljs-number">1</span>] = chessArr1[<span class="hljs-number">0</span>].length;<br>        Compact_Array[<span class="hljs-number">0</span>][<span class="hljs-number">2</span>] = row_list.size();<br>        <span class="hljs-comment">// 编写稀疏数组的头文件（第一行数据）</span><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">ii</span> <span class="hljs-operator">=</span> <span class="hljs-number">1</span>; ii &lt; row_list.size()+<span class="hljs-number">1</span>; ii++) &#123;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">jj</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; jj &lt; <span class="hljs-number">3</span>; jj++) &#123;<br>                <span class="hljs-keyword">if</span> (jj == <span class="hljs-number">0</span>) &#123;<br>                    Compact_Array[ii][jj] = (<span class="hljs-type">int</span>) row_list.get(ii-<span class="hljs-number">1</span>);<br>                &#125;<br>                <span class="hljs-keyword">if</span> (jj == <span class="hljs-number">1</span>) &#123;<br>                    Compact_Array[ii][jj] = (<span class="hljs-type">int</span>) col_list.get(ii-<span class="hljs-number">1</span>);<br>                &#125;<br>                <span class="hljs-keyword">if</span> (jj == <span class="hljs-number">2</span>) &#123;<br>                    Compact_Array[ii][jj] = (<span class="hljs-type">int</span>) val_list.get(ii-<span class="hljs-number">1</span>);<br>                &#125;<br>            &#125;<br>        &#125;<br>        <span class="hljs-comment">// 完成稀疏数组的赋值</span><br>        System.out.println(<span class="hljs-string">&quot;稀疏数组为：&quot;</span>);<br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span>[] row : Compact_Array) &#123;<br>            <span class="hljs-comment">// 首先遍历二维稀疏矩阵中的每一行</span><br>            <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> data : row) &#123;<br>                <span class="hljs-comment">// 然后遍历每一行中的每一个元素</span><br>                System.out.printf(<span class="hljs-string">&quot;%d\t&quot;</span>, data);<br>            &#125;<br>            System.out.println();<br>        &#125;<br>        <span class="hljs-comment">// 打印出赋值后的稀疏数组</span><br><br>        <span class="hljs-comment">// Step3：稀疏数组还原数据</span><br>        <span class="hljs-type">int</span> Recon_array[][] = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[Compact_Array[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>]][Compact_Array[<span class="hljs-number">0</span>][<span class="hljs-number">1</span>]];<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">iii</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; iii &lt; Compact_Array[<span class="hljs-number">0</span>][<span class="hljs-number">2</span>]; iii++) &#123;<br>            Recon_array[Compact_Array[iii+<span class="hljs-number">1</span>][<span class="hljs-number">0</span>]][Compact_Array[iii+<span class="hljs-number">1</span>][<span class="hljs-number">1</span>]] = Compact_Array[iii+<span class="hljs-number">1</span>][<span class="hljs-number">2</span>];<br>        &#125;<br>        <span class="hljs-comment">// 完成稀疏数组的还原</span><br>        System.out.println(<span class="hljs-string">&quot;还原的数组为：&quot;</span>);<br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span>[] row : Recon_array) &#123;<br>            <span class="hljs-comment">// 首先遍历二维稀疏矩阵中的每一行</span><br>            <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> data : row) &#123;<br>                <span class="hljs-comment">// 然后遍历每一行中的每一个元素</span><br>                System.out.printf(<span class="hljs-string">&quot;%d\t&quot;</span>, data);<br>            &#125;<br>            System.out.println();<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
                 
               </div>
             
@@ -325,12 +324,12 @@
     
       <span class="category-chain">
         
-  <a href="/categories/Python/" class="category-chain-item">Python</a>
+  <a href="/categories/Java/" class="category-chain-item">Java</a>
   
   
     <span>></span>
     
-  <a href="/categories/Python/Tensorflow/" class="category-chain-item">Tensorflow</a>
+  <a href="/categories/Java/Data-Structure/" class="category-chain-item">Data Structure</a>
   
   
 
@@ -347,11 +346,9 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/TF%E5%AD%A6%E4%B9%A0/">#TF学习</a>
+        <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%AD%A6%E4%B9%A0/">#数据结构学习</a>
       
-        <a href="/tags/Python/">#Python</a>
-      
-        <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">#深度学习</a>
+        <a href="/tags/Java/">#Java</a>
       
     </div>
   
@@ -363,8 +360,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Tensorflow学习笔记 Vol.2</div>
-      <div>https://johnnn765.github.io/2022/10/08/Tensorflow2/</div>
+      <div>DataStructure Vol.1 稀疏矩阵转换 Sparse Array Conversion</div>
+      <div>https://johnnn765.github.io/2022/10/08/DataStructure1/</div>
     </div>
     <div class="license-meta">
       
@@ -408,9 +405,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/10/08/DataStructure1/" title="DataStructure Vol.1 稀疏矩阵转换 Sparse Array Conversion">
+                      <a href="/2022/10/08/DataStructure2/" title="DataStructure Vol.2 数组队列模拟 Array Queues Demo">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">DataStructure Vol.1 稀疏矩阵转换 Sparse Array Conversion</span>
+                        <span class="hidden-mobile">DataStructure Vol.2 数组队列模拟 Array Queues Demo</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -418,8 +415,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/10/07/Tensorflow1/" title="Tensorflow学习笔记 Vol.1">
-                        <span class="hidden-mobile">Tensorflow学习笔记 Vol.1</span>
+                      <a href="/2022/10/08/Tensorflow2/" title="Tensorflow学习笔记 Vol.2">
+                        <span class="hidden-mobile">Tensorflow学习笔记 Vol.2</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
