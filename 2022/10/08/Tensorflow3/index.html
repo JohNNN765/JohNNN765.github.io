@@ -18,16 +18,16 @@
   <meta name="author" content="John ZHANG">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Tensorflow学习笔记 Vol.3Tensorflow学习笔记3，Tensorflow的中阶以及进阶操作，包括张量的合并与分割，张量的创建，损失计算，全网络创建，索引与切片，维度变换，广播机制以及基础数学运算 1.张量的合并与分割123456789101112131415161718192021222324252627282930313233343536373839404142434445">
+    <meta name="description" content="Tensorflow学习笔记 Vol.3 Tensorflow学习笔记3，Tensorflow的中阶以及进阶操作，包括张量的合并与分割，张量的Euclid范数，损失计算，全网络创建，索引与切片，维度变换，广播机制以及基础数学运算 1.张量的合并与分割 123456789101112131415161718192021222324252627282930313233343536373839">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Tensorflow学习笔记 Vol.3">
 <meta property="og:url" content="https://johnnn765.github.io/2022/10/08/Tensorflow3/index.html">
 <meta property="og:site_name" content="John&#39;s TBlog">
-<meta property="og:description" content="Tensorflow学习笔记 Vol.3Tensorflow学习笔记3，Tensorflow的中阶以及进阶操作，包括张量的合并与分割，张量的创建，损失计算，全网络创建，索引与切片，维度变换，广播机制以及基础数学运算 1.张量的合并与分割123456789101112131415161718192021222324252627282930313233343536373839404142434445">
+<meta property="og:description" content="Tensorflow学习笔记 Vol.3 Tensorflow学习笔记3，Tensorflow的中阶以及进阶操作，包括张量的合并与分割，张量的Euclid范数，损失计算，全网络创建，索引与切片，维度变换，广播机制以及基础数学运算 1.张量的合并与分割 123456789101112131415161718192021222324252627282930313233343536373839">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://i.ytimg.com/vi/yjprpOoH5c8/maxresdefault.jpg">
 <meta property="article:published_time" content="2022-10-08T12:50:06.000Z">
-<meta property="article:modified_time" content="2022-10-08T12:52:26.992Z">
+<meta property="article:modified_time" content="2022-10-09T08:17:50.483Z">
 <meta property="article:author" content="John ZHANG">
 <meta property="article:tag" content="TF学习">
 <meta property="article:tag" content="Python">
@@ -69,6 +69,10 @@
     <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
   
 
+
+
+  
+<link rel="stylesheet" href="/css/indeximg-hover.css">
 
 
 
@@ -255,7 +259,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.2k 字
+          1.8k 字
         
       </span>
     
@@ -266,7 +270,7 @@
         
         
         
-          11 分钟
+          16 分钟
         
       </span>
     
@@ -317,11 +321,29 @@
             
               <div class="markdown-body">
                 
-                <p><img src="https://i.ytimg.com/vi/yjprpOoH5c8/maxresdefault.jpg" srcset="/img/loading.gif" lazyload></p>
-<h1 id="Tensorflow学习笔记-Vol-3"><a href="#Tensorflow学习笔记-Vol-3" class="headerlink" title="Tensorflow学习笔记 Vol.3"></a>Tensorflow学习笔记 Vol.3</h1><p>Tensorflow学习笔记3，Tensorflow的中阶以及进阶操作，包括<strong>张量的合并与分割</strong>，<strong>张量的创建</strong>，<strong>损失计算</strong>，<strong>全网络创建</strong>，<strong>索引与切片</strong>，<strong>维度变换</strong>，<strong>广播机制</strong>以及<strong>基础数学运算</strong></p>
-<h3 id="1-张量的合并与分割"><a href="#1-张量的合并与分割" class="headerlink" title="1.张量的合并与分割"></a>1.张量的合并与分割</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> tensorflow <span class="hljs-keyword">as</span> tf<br><br><span class="hljs-comment"># --------------------张量的融合---------------------</span><br>a = tf.ones([<span class="hljs-number">4</span>, <span class="hljs-number">35</span>, <span class="hljs-number">8</span>])<br>b = tf.ones([<span class="hljs-number">2</span>, <span class="hljs-number">35</span>, <span class="hljs-number">8</span>])<br><span class="hljs-comment"># 张量意义[班级，学生，科目成绩]</span><br><br>c = tf.concat([a, b], axis = <span class="hljs-number">0</span>)<br><span class="hljs-built_in">print</span>(c.shape)<br><span class="hljs-comment"># 利用 tf.concat 将两个张量在指定的维度进行融合</span><br><br>a = tf.ones([<span class="hljs-number">4</span>, <span class="hljs-number">32</span>, <span class="hljs-number">8</span>])<br>b = tf.ones([<span class="hljs-number">4</span>, <span class="hljs-number">3</span>, <span class="hljs-number">8</span>])<br><br><span class="hljs-built_in">print</span>(tf.concat([a, b], axis = <span class="hljs-number">1</span>))<br><span class="hljs-comment"># 除去指定融合维度，两个张量在其他维度必须拥有相同维度</span><br><br><br><span class="hljs-comment"># --------------------张量的堆叠---------------------</span><br>a = tf.ones([<span class="hljs-number">4</span>, <span class="hljs-number">35</span>, <span class="hljs-number">8</span>])<br>b = tf.ones([<span class="hljs-number">4</span>, <span class="hljs-number">35</span>, <span class="hljs-number">8</span>])<br><span class="hljs-comment"># a数据与b数据来自不同学校，需要有一个新的维度进行区分</span><br><br>c = tf.stack([a, b], axis = <span class="hljs-number">0</span>)<br><span class="hljs-built_in">print</span>(c.shape)<br>d = tf.stack([a, b], axis = <span class="hljs-number">3</span>)<br><span class="hljs-built_in">print</span>(d.shape)<br><span class="hljs-comment"># 利用 tf.stack 在指定的任意维度上进行堆叠以创建一个新的维度</span><br><span class="hljs-comment"># tf.stack要求两个堆叠的张量在所有维度上拥有相同的维数</span><br><br><br><span class="hljs-comment"># --------------------张量的拆分---------------------</span><br>a = tf.ones([<span class="hljs-number">2</span>, <span class="hljs-number">4</span>, <span class="hljs-number">35</span>, <span class="hljs-number">8</span>])<br>aa, bb = tf.unstack(c, axis = <span class="hljs-number">0</span>)<br><span class="hljs-built_in">print</span>(aa.shape, bb.shape)<br><span class="hljs-comment"># 利用 tf.unstack 在指定的维度上对一个张量进行拆分，拆分个数为拆分维度的维数</span><br><br>cc = tf.unstack(a, axis = <span class="hljs-number">3</span>)<br><span class="hljs-built_in">print</span>(cc[<span class="hljs-number">0</span>].shape)<br><span class="hljs-built_in">print</span>(cc[<span class="hljs-number">7</span>].shape)<br><br>dd = tf.split(a, axis = <span class="hljs-number">3</span>, num_or_size_splits = <span class="hljs-number">2</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">len</span>(dd))<br>ee = tf.split(a, axis = <span class="hljs-number">3</span>, num_or_size_splits = [<span class="hljs-number">2</span>, <span class="hljs-number">2</span>, <span class="hljs-number">4</span>])<br><span class="hljs-built_in">print</span>(ee[<span class="hljs-number">0</span>].shape)<br><span class="hljs-built_in">print</span>(ee[<span class="hljs-number">2</span>].shape)<br><span class="hljs-comment"># 利用 tf.split 对张量进行指定维度上指定拆分方式的张量拆分</span><br></code></pre></td></tr></table></figure>
-
-<p>__本文作者__：Johnnn765<br />__本文地址__： <a href="https://johnnn765.github.io/2022/10/08/Tensorflow3/">https://johnnn765.github.io/2022/10/08/Tensorflow3/</a> <br />__版权声明__：转载请注明出处！</p>
+                <p><img
+src="https://i.ytimg.com/vi/yjprpOoH5c8/maxresdefault.jpg" srcset="/img/loading.gif" lazyload /></p>
+<h1 id="tensorflow学习笔记-vol.3">Tensorflow学习笔记 Vol.3</h1>
+<p>Tensorflow学习笔记3，Tensorflow的中阶以及进阶操作，包括<strong>张量的合并与分割</strong>，<strong>张量的Euclid范数</strong>，<strong>损失计算</strong>，<strong>全网络创建</strong>，<strong>索引与切片</strong>，<strong>维度变换</strong>，<strong>广播机制</strong>以及<strong>基础数学运算</strong></p>
+<h3 id="张量的合并与分割">1.张量的合并与分割</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> tensorflow <span class="hljs-keyword">as</span> tf<br><br><span class="hljs-comment"># --------------------张量的融合---------------------</span><br>a = tf.ones([<span class="hljs-number">4</span>, <span class="hljs-number">35</span>, <span class="hljs-number">8</span>])<br>b = tf.ones([<span class="hljs-number">2</span>, <span class="hljs-number">35</span>, <span class="hljs-number">8</span>])<br><span class="hljs-comment"># 张量意义[班级，学生，科目成绩]</span><br><br>c = tf.concat([a, b], axis = <span class="hljs-number">0</span>)<br><span class="hljs-built_in">print</span>(c.shape)<br><span class="hljs-comment"># 利用 tf.concat 将两个张量在指定的维度进行融合</span><br><br>a = tf.ones([<span class="hljs-number">4</span>, <span class="hljs-number">32</span>, <span class="hljs-number">8</span>])<br>b = tf.ones([<span class="hljs-number">4</span>, <span class="hljs-number">3</span>, <span class="hljs-number">8</span>])<br><br><span class="hljs-built_in">print</span>(tf.concat([a, b], axis = <span class="hljs-number">1</span>))<br><span class="hljs-comment"># 除去指定融合维度，两个张量在其他维度必须拥有相同维度</span><br><br><br><span class="hljs-comment"># --------------------张量的堆叠---------------------</span><br>a = tf.ones([<span class="hljs-number">4</span>, <span class="hljs-number">35</span>, <span class="hljs-number">8</span>])<br>b = tf.ones([<span class="hljs-number">4</span>, <span class="hljs-number">35</span>, <span class="hljs-number">8</span>])<br><span class="hljs-comment"># a数据与b数据来自不同学校，需要有一个新的维度进行区分</span><br><br>c = tf.stack([a, b], axis = <span class="hljs-number">0</span>)<br><span class="hljs-built_in">print</span>(c.shape)<br>d = tf.stack([a, b], axis = <span class="hljs-number">3</span>)<br><span class="hljs-built_in">print</span>(d.shape)<br><span class="hljs-comment"># 利用 tf.stack 在指定的任意维度上进行堆叠以创建一个新的维度</span><br><span class="hljs-comment"># tf.stack要求两个堆叠的张量在所有维度上拥有相同的维数</span><br><br><br><span class="hljs-comment"># --------------------张量的拆分---------------------</span><br>a = tf.ones([<span class="hljs-number">2</span>, <span class="hljs-number">4</span>, <span class="hljs-number">35</span>, <span class="hljs-number">8</span>])<br>aa, bb = tf.unstack(c, axis = <span class="hljs-number">0</span>)<br><span class="hljs-built_in">print</span>(aa.shape, bb.shape)<br><span class="hljs-comment"># 利用 tf.unstack 在指定的维度上对一个张量进行拆分，拆分个数为拆分维度的维数</span><br><br>cc = tf.unstack(a, axis = <span class="hljs-number">3</span>)<br><span class="hljs-built_in">print</span>(cc[<span class="hljs-number">0</span>].shape)<br><span class="hljs-built_in">print</span>(cc[<span class="hljs-number">7</span>].shape)<br><br>dd = tf.split(a, axis = <span class="hljs-number">3</span>, num_or_size_splits = <span class="hljs-number">2</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">len</span>(dd))<br>ee = tf.split(a, axis = <span class="hljs-number">3</span>, num_or_size_splits = [<span class="hljs-number">2</span>, <span class="hljs-number">2</span>, <span class="hljs-number">4</span>])<br><span class="hljs-built_in">print</span>(ee[<span class="hljs-number">0</span>].shape)<br><span class="hljs-built_in">print</span>(ee[<span class="hljs-number">2</span>].shape)<br><span class="hljs-comment"># 利用 tf.split 对张量进行指定维度上指定拆分方式的张量拆分</span><br></code></pre></td></tr></table></figure>
+<h3 id="张量的euclid范数">2.张量的Euclid范数</h3>
+<p>Euclid范数公式（点击公式🔍）： <span class="math display">\[ \left \|
+x \right \| _{1} = \sqrt{ {\textstyle \sum_{i = 1}^{m}} x_{i}^{2} }
+\]</span>
+2-范数也称为Euclid范数（欧几里得范数，常用计算向量长度），即向量元素绝对值的平方和再开方，表示x向量到零点的欧式距离</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> tensorflow <span class="hljs-keyword">as</span> tf<br><br>a = tf.ones([<span class="hljs-number">2</span>, <span class="hljs-number">2</span>])<br><span class="hljs-built_in">print</span>(tf.norm(a))<br><span class="hljs-comment"># 张量的向量范数，等于所有元素的平方和开跟（Euclid范数）</span><br><span class="hljs-built_in">print</span>(tf.sqrt(tf.reduce_sum(tf.square(a))))<br><span class="hljs-comment"># 验证向量范数的计算过程</span><br></code></pre></td></tr></table></figure>
+<div class="note note-success">
+            <p><strong>输出结果：</strong><br />tf.Tensor(2.0, shape=(), dtype=float32)<br />tf.Tensor(2.0, shape=(), dtype=float32)</p>
+          </div>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">a = tf.ones([<span class="hljs-number">4</span>, <span class="hljs-number">28</span>, <span class="hljs-number">28</span>, <span class="hljs-number">3</span>])<br><span class="hljs-built_in">print</span>(tf.norm(a))<br><span class="hljs-comment"># 张量的向量范数，等于所有元素的平方和开跟（Euclid范数）</span><br><span class="hljs-built_in">print</span>(tf.sqrt(tf.reduce_sum(tf.square(a))))<br><span class="hljs-comment"># 验证向量范数的计算过程</span><br></code></pre></td></tr></table></figure>
+<div class="note note-success">
+            <p><strong>输出结果：</strong><br />tf.Tensor(96.99484, shape=(), dtype=float32)<br />tf.Tensor(96.99484, shape=(), dtype=float32)</p>
+          </div>
+<p><strong>本文作者</strong>：Johnnn765<br /><strong>本文地址</strong>：
+<a
+href="https://johnnn765.github.io/2022/10/08/Tensorflow3/">https://johnnn765.github.io/2022/10/08/Tensorflow3/</a>
+<br /><strong>版权声明</strong>：转载请注明出处！</p>
 
                 
               </div>
@@ -510,6 +532,12 @@
 
 
   
+
+
+  
+  
+
+
 
 
 
@@ -729,11 +757,58 @@
 
   <script>Fluid.plugins.imageCaption();</script>
 
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
   <script defer src="/js/leancloud.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 
 
+
+
+  
+<script src="/js/DynamicLine.js"></script>
 
 
 
